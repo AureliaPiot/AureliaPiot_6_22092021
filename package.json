@@ -16,5 +16,8 @@
     "http-server": "^13.0.2",
     "live-server": "^1.2.1",
     "run-script-os": "^1.0.7"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^12.2.6"
   }
 }
