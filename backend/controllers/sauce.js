@@ -38,9 +38,8 @@ exports.addSauce = (req,res,next)=>{
         //images = le dossier ou se trouve les images
         // req.file.filename = ici on a le nom du fichier
     });
-    console.log(sauce);
     sauce.save()
-        .then(()=> res.status(201).json({message:"objet enregistrer"}))
+        .then(()=> res.status(201).json({message:"sauce enregistrer"}))
         .catch(error => res.status(400).json({error}));
 };
 

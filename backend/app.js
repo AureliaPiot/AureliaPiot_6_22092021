@@ -16,8 +16,12 @@ const userRoutes = require('./routes/user');
 // on appel les routes des user( pour recupe la fin de l'url + le controller a efectuer)
 const sauceRoutes = require('./routes/sauce');
 
+
+
+
+
 app.use(express.json());
-// pour lire le crop de la requete
+// pour lire le corp de la requete
 
 // HEADER
 // appliquer à toutes les routes, permet la communication entre server
@@ -32,9 +36,10 @@ app.use((req,res,next)=>{
     next();
 });
 
+
 // on donner le debut de l'url, userRoutes s'occupe de redistribué en fonction de la fin de l'url
 app.use('/api/auth',userRoutes);
-app.use('/api/sauce',sauceRoutes);
+app.use('/api/sauces',sauceRoutes);
 
 // possibiliter d'enregistrer des images
 const path = require('path');
