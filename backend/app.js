@@ -37,6 +37,7 @@ app.use('/api/auth',userRoutes);
 app.use('/api/sauce',sauceRoutes);
 
 // possibiliter d'enregistrer des images
+const path = require('path');
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 
