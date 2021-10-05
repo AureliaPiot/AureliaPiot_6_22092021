@@ -11,10 +11,13 @@ mongoose.connect('mongodb+srv://P6_DB_user:BJPlzd45me@exosite.xaes9.mongodb.net/
 .catch(() => console.log('Connexion à MongoDB échouée !'));
     
 
+
+const userRoutes = require('./routes/user');
+// on appel les routes des user( pour recupe la fin de l'url + le controller a efectuer)
+const sauceRoutes = require('./routes/sauce');
+
 app.use(express.json());
-
-
-
+// pour lire le crop de la requete
 
 // HEADER
 // appliquer à toutes les routes, permet la communication entre server
@@ -29,15 +32,12 @@ app.use((req,res,next)=>{
     next();
 });
 
-
-const userRoutes = require('./routes/user');
-// on appel les routes des user( pour recupe la fin de l'url + le controller a efectuer)
-const sauceRoutes = require('./routes/sauce');
-
-
-app.use('/api/auth',userRoutes);
 // on donner le debut de l'url, userRoutes s'occupe de redistribué en fonction de la fin de l'url
+app.use('/api/auth',userRoutes);
 app.use('/api/sauce',sauceRoutes);
+
+// possibiliter d'enregistrer des images
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 
 
