@@ -16,16 +16,14 @@ exports.getOneSauce = (req, res, next)=>{
     .catch(error => res.status(404).json({error}));
 };
 
-
 exports.addSauce = (req,res,next)=>{
     // possibliter d'ajout des fichiers
 
-    // on transforme cette chaine de caractere (le sauce du corps de la requet) pour la transformer en objet javascripte
+    // on transforme cette chaine de caractere (le sauce du corps de la requet) pour la transformer en objet javascript
     const sauceObject = JSON.parse(req.body.sauce);
+    console.log(sauceObject);
     
     delete sauceObject._id;
-
-    //car sauceObject contient le body de la requete
 
     const sauce =new Sauce({
         ...sauceObject,
@@ -40,7 +38,7 @@ exports.addSauce = (req,res,next)=>{
     });
     sauce.save()
         .then(()=> res.status(201).json({message:"sauce enregistrer"}))
-        .catch(error => res.status(400).json({error}));
+        .catch(error => res.status(400).json({error:"la sauce n'a pas pu etre enregistrer"}));
 };
 
 

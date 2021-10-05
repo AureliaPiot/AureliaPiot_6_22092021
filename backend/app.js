@@ -15,11 +15,12 @@ mongoose.connect('mongodb+srv://P6_DB_user:BJPlzd45me@exosite.xaes9.mongodb.net/
 const userRoutes = require('./routes/user');
 // on appel les routes des user( pour recupe la fin de l'url + le controller a efectuer)
 const sauceRoutes = require('./routes/sauce');
+const path = require('path');
+// possibiliter d'enregistrer des images
 
 
-
-
-
+// const bodyParser = require('body-parser');
+// app.use(bodyParser.json());
 app.use(express.json());
 // pour lire le corp de la requete
 
@@ -41,9 +42,9 @@ app.use((req,res,next)=>{
 app.use('/api/auth',userRoutes);
 app.use('/api/sauces',sauceRoutes);
 
-// possibiliter d'enregistrer des images
-const path = require('path');
+
 app.use('/images', express.static(path.join(__dirname, 'images')));
+// possibiliter d'enregistrer des images
 
 
 
