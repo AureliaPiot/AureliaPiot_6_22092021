@@ -22,7 +22,7 @@ const port = normalizePort(process.env.PORT || '3000');
 
 
 app.set('port', port);
-// le "port" de l'application sera la valeur de $ port(au dessus)
+// le "port" de l'application sera la valeur de $port(au dessus)
 // _____________________
 
 
