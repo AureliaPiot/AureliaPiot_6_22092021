@@ -32,9 +32,12 @@ app.use((req,res,next)=>{
 
 const userRoutes = require('./routes/user');
 // on appel les routes des user( pour recupe la fin de l'url + le controller a efectuer)
+const sauceRoutes = require('./routes/sauce');
+
 
 app.use('/api/auth',userRoutes);
 // on donner le debut de l'url, userRoutes s'occupe de redistribué en fonction de la fin de l'url
+app.use('/api/sauce',sauceRoutes);
 
 
 
