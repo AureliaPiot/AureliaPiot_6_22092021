@@ -1,31 +1,34 @@
 const Sauce =require('../models/Sauce' );
+const fs = require('fs');
 
 
-
-// get all
+// [GET ALL]
 exports.getAllSauces = (req, res, next )=>{
     Sauce.find()
     .then(Sauces => res.status(200).json(Sauces))
     .catch(error => res.status(400).json(error));
 };
+// ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// get One
+// [GET ONE]
 exports.getOneSauce = (req, res, next)=>{
     Sauce.findOne({_id: req.params.id })
     .then(Sauce => res.status(200).json(Sauce))
     .catch(error => res.status(404).json({error}));
 };
 
-exports.addSauce = (req,res,next)=>{
-    // possibliter d'ajout des fichiers
+// ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // on transforme cette chaine de caractere (le sauce du corps de la requet) pour la transformer en objet javascript
+// [ADD]
+exports.addSauce = (req,res,next)=>{
+
+    // on transforme cette chaine de caractere (le sauce du corps de la requete) pour la transformer en objet javascript
     const sauceObject = JSON.parse(req.body.sauce);
     console.log(sauceObject);
     
     delete sauceObject._id;
 
-    const sauce =new Sauce({
+    const sauce = new Sauce({
         ...sauceObject,
         // tout le corp de la requete
         // comme c'est le middleware multer qui a generer l'url de l'image, on modife l'url de l'image de la requete recus ici pour pour avoir l'enregistrer dans la base de donnée
@@ -37,9 +40,61 @@ exports.addSauce = (req,res,next)=>{
         // req.file.filename = ici on a le nom du fichier
     });
     sauce.save()
-        .then(()=> res.status(201).json({message:"sauce enregistrer"}))
+        .then(()=> res.status(201).json({message:"sauce enregistrée"}))
         .catch(error => res.status(400).json({error:"la sauce n'a pas pu etre enregistrer"}));
 };
 
+// ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// [UPDATE]
+exports.updateSauce = (req, res, next)=>{
+    // faire une condition qui supprime l'image precedante
+
+    const sauceObject = req.file ?
+    // initialisation de sauceObject avec une condition
+    {
+        ...JSON.parse(req.body.sauce),
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+      } : { ...req.body };
+
+    //   si il existe on aura un type d'objet
+    //   -> on prend le fichier en compte , donc on recupere toute les information (avec "...") sous forme d'objet js (avec JSON.parse) le corp de la requete, et on va egalement generer l'imageURL
+    //   si il n'existe pas, on aura un autre type d'objet
+    //   -> on fait une simple copie de req.body =": { ...req.body };"
+
+    Sauce.updateOne({_id: req.params.id },
+         {...sauceObject, _id: req.params.id})
+    .then(()=> res.status(200).json({message: 'sauce modifiée'}))
+    .catch(error => res.status(404).json({error}));
+};
+
+
+
+// ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// [DELETE]
+exports.deleteSauce = (req, res, next)=>{
+
+    Sauce.findOne({_id: req.params.id})
+    .then(sauce =>{
+        const filename = sauce.imageUrl.split("/images/")[1];
+        // on recupe le nom de l'image
+        console.log('images/'+filename);
+
+        fs.unlink(`images/${filename}`,()=>{
+            Sauce.deleteOne({_id: req.params.id })
+            .then(() => res.status(200).json({message: 'sauce supprimée'}))
+            .catch(error => res.status(404).json({error}));
+        });
+        // du package fs, unlink permet de supprimer un fichier
+        // une fois le fichier supprimer, on va supprimer le produit de la base
+    }
+    )
+    .catch(error => res.status(500).json({error}));
+
+}
+
+// ////////////////////////////////////////////////////////////////////////////////////////////////////
+// [LIKES]
 
 
