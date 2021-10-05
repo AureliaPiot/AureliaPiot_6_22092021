@@ -32,7 +32,11 @@ exports.addSauce = (req,res,next)=>{
         ...sauceObject,
         // tout le corp de la requete
         // comme c'est le middleware multer qui a generer l'url de l'image, on modife l'url de l'image de la requete recus ici pour pour avoir l'enregistrer dans la base de donnée
-        imageUrl:`${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        imageUrl:`${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        likes: 0,
+        dislikes:0,
+        usersLiked: [],
+        usersDisliked: []
 
         // req.protocol = correspond a HTTP ou HTTPS
         // ${req.get('host')} = host de notre server (ici localhost:3000)

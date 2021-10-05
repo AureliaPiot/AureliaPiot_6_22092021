@@ -1,5 +1,4 @@
 // a ajouter sur les routes où on a besoin de controller l'utilisateur
-
 const jwt = require('jsonwebtoken');
 // pour verifier les tokens
 
@@ -8,11 +7,9 @@ module.exports = (req, res, next) => {
     //  recuperation du header authorization, que l'on separe
     const token = req.headers.authorization.split(' ')[1];
 
-
     // ensuite on decode le token, avec les package jwt et sa fonction verify()
     // si erreur , on tombe dans le catch
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-
 
     // extraction de l'userId
     const userId = decodedToken.userId;
@@ -22,13 +19,10 @@ module.exports = (req, res, next) => {
     // on envois une erreur
       throw 'Invalid user ID';
 
-
     } else {
     // sinon on passe la lecture du code au middleware suivant
       next();
     }
-
-
   } catch(error) {
     res.status(401).json({ error: error | 'Requete non authentifiée !'});
   }

@@ -23,6 +23,9 @@ const path = require('path');
 // app.use(bodyParser.json());
 app.use(express.json());
 // pour lire le corp de la requete
+app.use(express.urlencoded())
+// pour lire l'url de la requete
+
 
 // HEADER
 // appliquer à toutes les routes, permet la communication entre server
