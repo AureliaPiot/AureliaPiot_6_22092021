@@ -19,9 +19,9 @@ exports.signup = (req, res, next)=>{
             });
             user.save() //enregistrement de cette objet creer avec le model
                 .then(()=> res.status(201).json({message : 'utilisateur créé'}))
-                .catch(error => res.status(500).json({error}));
+                .catch(error => res.status(500).json({ error }));
         })
-        .catch(error => res.status(500).json({error}))
+        .catch(error => res.status(500).json({ error }))
 };
 
 
@@ -34,8 +34,8 @@ exports.login = (req, res, next)=>{
         }
         bcrypt.compare(req.body.password, user.password)
             .then(valid => {
-                    if(!valid){
-                return res.status(401).json({error:'mot de passe incorrect'})
+                if(!valid){
+                    return res.status(401).json({error:'mot de passe incorrect'})
                     }
                 res.status(200).json({
                     UserId: user._id,
@@ -47,7 +47,7 @@ exports.login = (req, res, next)=>{
                 }
                 );
             })
-            .catch(error => res.status(500).json({error}))
+            .catch(error => res.status(500).json({ error }))
     })
-    .catch(error => res.status(500).json({error}));
+    .catch(error => res.status(500).json({ error }));
 }

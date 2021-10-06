@@ -9,10 +9,12 @@ module.exports = (req, res, next) => {
 
     // ensuite on decode le token, avec les package jwt et sa fonction verify()
     // si erreur , on tombe dans le catch
-    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const decodedToken = jwt.verify(token,'RANDOM_SECRET_TOKEN');
 
     // extraction de l'userId
     const userId = decodedToken.userId;
+    console.log("userId");
+    console.log(userId);
 
     // si l'userId existe et qu'il est different de celui de la requete alors
     if (req.body.userId && req.body.userId !== userId) {
@@ -25,6 +27,7 @@ module.exports = (req, res, next) => {
     }
   } catch(error) {
     res.status(401).json({ error: error | 'Requete non authentifiée !'});
+    console.log('error');
   }
 };
 // try and catch, car plusieurs elements peuvent posé probleme qui seront géré avec try/catch
