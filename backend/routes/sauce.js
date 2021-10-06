@@ -11,14 +11,14 @@ const test = require('../middleware/test');
 
 
 router.get('/',auth,sauceCtrl.getAllSauces);
-router.get('/:id',test,auth,sauceCtrl.getOneSauce);
+router.get('/:id',auth,sauceCtrl.getOneSauce);
 
 
 router.post('/',test,auth,multer,sauceCtrl.addSauce);
 router.put('/:id',auth,multer,sauceCtrl.updateSauce);
 router.delete('/:id',auth,sauceCtrl.deleteSauce);
 
-// router.post('/:id/like',auth ,sauceCtrl.addSauce);
+router.post('/:id/like',test,auth,sauceCtrl.LikeSauce);
 
 module.exports = router;
 

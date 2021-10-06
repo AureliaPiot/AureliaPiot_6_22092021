@@ -13,8 +13,7 @@ module.exports = (req, res, next) => {
 
     // extraction de l'userId
     const userId = decodedToken.userId;
-    console.log("userId");
-    console.log(userId);
+
 
     // si l'userId existe et qu'il est different de celui de la requete alors
     if (req.body.userId && req.body.userId !== userId) {
