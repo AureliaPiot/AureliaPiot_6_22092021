@@ -2,7 +2,7 @@ const mongoose =require('mongoose');
 
 
 const SauceSchema = mongoose.Schema({
-      
+    
     userId : {type : String, require:true},
     name :{type : String, require:true},
     manufacturer : {type : String, require:true},
@@ -10,12 +10,12 @@ const SauceSchema = mongoose.Schema({
     mainPepper :{type :  String, require:true},
     imageUrl : {type : String, require:true},
     heat : {type : Number, require:true},
-
+    
     likes : {type : Number, require:false, default:0},
     dislikes : {type : Number, require:false, default:0},
     
-    usersLiked : {type : [String], require:false},
-    usersDisliked : {type : [String], require:false}
+    usersLiked : {type: Array, require:false, default:[]},
+    usersDisliked : {type: Array, require:false, default:[]}
     
 });
 

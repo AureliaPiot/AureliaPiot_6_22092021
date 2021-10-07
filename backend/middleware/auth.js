@@ -3,20 +3,26 @@ const jwt = require('jsonwebtoken');
 // pour verifier les tokens
 
 module.exports = (req, res, next) => {
+  console.log('--------- mdll AUTH-----------');
   try {
-    //  recuperation du header authorization, que l'on separe
+    //  recuperation du token dans le header authorization,
     const token = req.headers.authorization.split(' ')[1];
 
     // ensuite on decode le token, avec les package jwt et sa fonction verify()
-    // si erreur , on tombe dans le catch
     const decodedToken = jwt.verify(token,'RANDOM_SECRET_TOKEN');
+    // si erreur , on tombe dans le catch
 
     // extraction de l'userId
-    const userId = decodedToken.userId;
+    const userId = decodedToken.UserId;
+    console.log("userId : "+userId);
+
+    // console.log("Requete userId : "+ typeof res);
 
 
-    // si l'userId existe et qu'il est different de celui de la requete alors
+    // si l'userId existe mais  qu'il est different de celui de la requete alors
     if (req.body.userId && req.body.userId !== userId) {
+    console.log('erreur');
+
     // on envois une erreur
       throw 'Invalid user ID';
 
@@ -26,8 +32,11 @@ module.exports = (req, res, next) => {
     }
   } catch(error) {
     res.status(401).json({ error: error | 'Requete non authentifiée !'});
-    console.log('error');
+    console.log('User non authentifiée');
   }
+  
+  console.log('--------- mdll auth-----------');
+
 };
 // try and catch, car plusieurs elements peuvent posé probleme qui seront géré avec try/catch
 // ctach renvoie juste une erreur 401 qui correspond a un probleme d'authentifications

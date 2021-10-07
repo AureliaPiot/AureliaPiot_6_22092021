@@ -23,16 +23,23 @@ exports.getOneSauce = (req, res, next)=>{
 exports.addSauce = (req,res,next)=>{
 
     // on transforme cette chaine de caractere (le sauce du corps de la requete) pour la transformer en objet javascript
+
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token,'RANDOM_SECRET_TOKEN');
+    const userId = decodedToken.UserId;
+    console.log("userId "+userId);
+
+
     const sauceObject = JSON.parse(req.body.sauce);
-    console.log(sauceObject);
-    
     delete sauceObject._id;
 
     const sauce = new Sauce({
         ...sauceObject,
         // tout le corp de la requete
+        userId:`${userId}`,
         // comme c'est le middleware multer qui a generer l'url de l'image, on modife l'url de l'image de la requete recus ici pour pour avoir l'enregistrer dans la base de donnée
-        imageUrl:`${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        imageUrl:`${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+
         // likes: 0,
         // dislikes:0,
         // usersLiked: [],
@@ -43,6 +50,7 @@ exports.addSauce = (req,res,next)=>{
         //images = le dossier ou se trouve les images
         // req.file.filename = ici on a le nom du fichier
     });
+    console.log('sauce '+sauce);
     sauce.save()
         .then(()=> res.status(201).json({message:"sauce enregistrée"}))
         .catch(error => res.status(400).json({error:"la sauce n'a pas pu etre enregistrer"}));
