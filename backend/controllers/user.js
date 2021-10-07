@@ -10,7 +10,6 @@ const jwt = require('jsonwebtoken');
 
 // inscription
 exports.signup = (req, res, next)=>{
-    console.log("genre le mot de pass ?");
     bcrypt.hash(req.body.password, 10)
         .then(hash =>{
             const user = new User({ //utilisation du model creer et importer
@@ -19,7 +18,7 @@ exports.signup = (req, res, next)=>{
             });
             user.save() //enregistrement de cette objet creer avec le model
                 .then(()=> res.status(201).json({message : 'utilisateur créé'}))
-                .catch(error => res.status(500).json({ error }));
+                .catch(error => res.status(403).json({ error:"creation utilisateur impossible" }));
         })
         .catch(error => res.status(500).json({ error }))
 };
@@ -27,27 +26,28 @@ exports.signup = (req, res, next)=>{
 
 // connexion
 exports.login = (req, res, next)=>{
-    User.findOne({emai: req.body.email})
-    .then(user => {
-        if(!user){
+    User.findOne({email: req.body.email})
+    .then(User => {
+        console.log('user:'+User);
+        if(!User){
             return res.status(401).json({error:'utilisateur inexistant'})
         }
-        bcrypt.compare(req.body.password, user.password)
-            .then(valid => {
-                if(!valid){
-                    return res.status(401).json({error:'mot de passe incorrect'})
-                    }
-                res.status(200).json({
-                    UserId: user._id,
-                    token: jwt.sign(
-                        { userId: user._id },
-                        'RANDOM_SECRET_TOKEN',
-                        { expiresIn: '24h' }
-                        )
-                }
-                );
-            })
-            .catch(error => res.status(500).json({ error }))
+        bcrypt.compare(req.body.password, User.password)
+    .then(valid => {
+        console.log('valide:'+ valid);
+        if(!valid){
+            return res.status(401).json({error:'mot de passe incorrect'})
+            }
+        res.status(200).json({
+            UserId: User._id,
+            token: jwt.sign(
+                { UserId: User._id },
+                'RANDOM_SECRET_TOKEN',
+                { expiresIn: '24h' }
+            )
+        });
+    })
+    .catch(error => res.status(500).json({ error }))
     })
     .catch(error => res.status(500).json({ error }));
 }
