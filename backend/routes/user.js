@@ -7,6 +7,7 @@ const userCtrl = require('../controllers/user');
 
 router.post('/signup',userCtrl.signup);
 router.post('/login',userCtrl.login);
+
 //segment final de l'url, le debut est indiquer dans app.js avec "app.use('/api/auth',userRoutes);"
 
 module.exports = router;
