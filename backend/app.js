@@ -23,7 +23,7 @@ const path = require('path');
 // app.use(bodyParser.json());
 app.use(express.json());
 // pour lire le corp de la requete
-app.use(express.urlencoded())
+// app.use(express.urlencoded())
 // pour lire l'url de la requete
 
 

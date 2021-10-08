@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
+    console.log('----------Test---------');
 
     console.log('methode : '+req.method);
     console.log('status : '+res.statusCode);
@@ -12,8 +13,12 @@ module.exports = (req, res, next) => {
 
     console.log("test_token : "+token);
     console.log("test_userId : "+userId);
+    console.log("Requete userId : "+req.body);
+    console.log(req.body);
 
-    // console.log(JSON.stringify(req.headers));
+    
+
+    console.log('----------tst---------');
 
     
     next()

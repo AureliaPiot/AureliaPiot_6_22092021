@@ -15,14 +15,14 @@ const test = require('../middleware/test');
 // recupere la methode,le status de la requete & l'id de l'user
 
 router.get('/',auth,sauceCtrl.getAllSauces);
-router.get('/:id',auth,test,UserCtrl,sauceCtrl.getOneSauce);
+router.get('/:id',auth,test,sauceCtrl.getOneSauce);
 
 
 router.post('/',auth,multer,sauceCtrl.addSauce);
 router.put('/:id',auth,multer,sauceCtrl.updateSauce);
 router.delete('/:id',auth,sauceCtrl.deleteSauce);
 
-router.post('/:id/like',test,auth,sauceCtrl.LikeSauce);
+router.post('/:id/like',auth,test,sauceCtrl.LikeSauce);
 
 module.exports = router;
 

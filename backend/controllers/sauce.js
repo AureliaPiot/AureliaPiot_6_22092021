@@ -29,7 +29,6 @@ exports.addSauce = (req,res,next)=>{
     const userId = decodedToken.UserId;
     console.log("userId "+userId);
 
-
     const sauceObject = JSON.parse(req.body.sauce);
     delete sauceObject._id;
 
