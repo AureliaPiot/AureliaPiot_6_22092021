@@ -13,8 +13,9 @@ module.exports = (req, res, next) => {
 
     console.log("test_token : "+token);
     console.log("test_userId : "+userId);
-    console.log("Requete userId : "+req.body);
-    console.log(req.body);
+    // console.log("Requete userId : "+req.body)
+    console.log("Body :");
+    console.table(req.body);
 
     
 

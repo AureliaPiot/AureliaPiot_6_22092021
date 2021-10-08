@@ -118,15 +118,16 @@ exports.LikeSauce = (req, res, next)=>{
         const userId = decodedToken.userId;
         console.log("userId : "+userId);    
 
-        console.log(req.body);        
+        // console.log(req.body); 
+
         const likeStatus = req.body.like;
-        console.log('requete like statut : '+ likeStatus);
+        // console.log('requete like statut : '+ likeStatus);
 
     switch (likeStatus){
         case 1:
             Sauce.findOne({_id: req.params.id})
                 .then(sauce =>{
-                     
+
                      if(sauce.usersLiked.includes(userId)) {
                         sauce.usersLiked.pull(userId);
                         sauce.likes --;
