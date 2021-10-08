@@ -116,7 +116,7 @@ exports.LikeSauce = (req, res, next)=>{
 
         const token = req.headers.authorization.split(' ')[1];
         const decodedToken = jwt.verify(token,'RANDOM_TOKEN_SECRET');
-        const userId = decodedToken.UserId;
+        const userId = decodedToken.userId;
         // console.log('Lke_UserId'+ userId);
 
         // console.log(req.body); 
@@ -131,60 +131,101 @@ exports.LikeSauce = (req, res, next)=>{
             Sauce.findOne({_id: req.params.id})
                 .then(sauce =>{   
 
-                     if(!sauce.usersLiked.includes(userId)) {
+                    if(sauce.usersDisliked.includes(`${userId}`) && !sauce.usersLiked.includes(`${userId}`) ){
+                        console.log("deja dislike"); 
+                        sauce.usersLiked.push(`${userId}`);
+                        sauce.likes ++;
+                        sauce.usersDisliked.pull(`${userId}`);
+                        sauce.dislikes --;
+
+                        sauce.save()
+                            .then(()=> 
+                            res.status(200).json({message:"dislike retiré et like ajouté"})
+                            )
+                            .catch(error => res.status(400).json({error:"dislike non retiré et like non ajouté"}));
+                            return
+                    }
+
+                    if(sauce.usersLiked.includes(`${userId}`)) {
+                        console.log("deja  like"); 
+
+                        sauce.usersLiked.pull(`${userId}`);
+                        sauce.likes --;
+                        sauce.save()
+                            .then(()=> 
+                            res.status(200).json({message:"sauce liké"})
+                            )
+                            .catch(error => res.status(400).json({error:"la sauce n'a pas pu etre être liké "}));
+                            return
+                    }
+
+                    if(!sauce.usersDisliked.includes(`${userId}`) && !sauce.usersLiked.includes(`${userId}`) ){
+                        console.log("ni like ni dislike" ); 
+
                         sauce.usersLiked.push(`${userId}`);
                         sauce.likes ++;
                         sauce.save()
                             .then(()=> 
-                            res.status(200).json({message:"sauce liké"}
-                            )
+                            res.status(200).json({message:"sauce liké"})
                             )
                             .catch(error => res.status(400).json({error:"la sauce n'a pas pu etre être liké "}));
-                        
 
-                    }
-                    else{
-                    return res.status(203).json({message:"sauce non liké"})
-                    }
-                    // if(sauce.usersDisliked.includes(userId)) {
-                    //     sauce.usersDisLiked.pull(userId);
-                    //     sauce.dislikes --;
-                    //     sauce.save()
-                    //         .then(()=> 
-                    //         res.status(200).json({message:"dislike retiré"})
-                    //         )
-                    //         .catch(error => res.status(400).json({error:"dislike non retiré "}));
+                        }
+             
 
-                    // }
             })
             .catch(error => res.status(500).json({message : 'error - like'}));
         
             break; 
 
-
-
         case -1:
             Sauce.findOne({_id: req.params.id})
                 .then(sauce =>{
-                    if(!sauce.usersDisliked.includes(userId)){
+                    if(sauce.usersLiked.includes(`${userId}`) && !sauce.usersDisliked.includes(`${userId}`) ){
+                        console.log("deja like"); 
+
                         sauce.usersDisliked.push(`${userId}`);
                         sauce.dislikes ++;
+                        sauce.usersLiked.pull(`${userId}`);
+                        sauce.likes --;
+
                         sauce.save()
-                        .then(()=> res.status(204).json({message:"sauce disliké"}))
-                        .catch(error => res.status(400).json({error:"la sauce n'a pas pu etre être disliké "}));
+                            .then(()=> 
+                            res.status(200).json({message:"like retiré et dislike ajouté"})
+                            )
+                            .catch(error => res.status(400).json({error:"like non retiré et dislike non ajouté"}));
+                            return
                     }
-                    else{
+
+                    if(sauce.usersDisliked.includes(`${userId}`)) {
+                        console.log("deja dislike"); 
+
                         sauce.usersDisliked.pull(`${userId}`);
                         sauce.dislikes --;
                         sauce.save()
-                        .then(()=> res.status(204).json({message:"sauce de-disliké"}))
-                        .catch(error => res.status(400).json({error:"la sauce n'a pas pu etre être de-disliké "}));
+                            .then(()=> 
+                            res.status(200).json({message:"sauce de-dislike"})
+                            )
+                            .catch(error => res.status(400).json({error:"la sauce n'a pas pu etre être de-dislike "}));
+                            return
+
                     }
+
+                    if(!sauce.usersLiked.includes(`${userId}`) && !sauce.usersDisliked.includes(`${userId}`)){
+                        console.log("ni like ni dislike" ); 
+
+                        sauce.usersDisliked.push(`${userId}`);
+                        sauce.dislikes ++;
+                        sauce.save()
+                            .then(()=> 
+                            res.status(200).json({message:"sauce dislike"})
+                            )
+                            .catch(error => res.status(400).json({error:"la sauce n'a pas pu etre être dislike "}));
+
+                        }
             })
-            .catch(error => res.status(500).json({error}));
+            .catch(error => res.status(500).json({message : 'error - dislike'}));
         break;     
-
-
 
 
         case 0:
@@ -204,8 +245,11 @@ exports.LikeSauce = (req, res, next)=>{
                             .then(()=> res.status(200).json({message:"sauce plus liké"}))
                             .catch(error => res.status(400).json({error:"la sauce n'a pas pu etre être de-liké "}));
                     };
+                    if(!sauce.usersLiked.includes(`${userId}`) && !sauce.usersDisliked.includes(`${userId}`)){
+                        return res.status(200).json({message:"aucun changement"})
+                    }
                 })
-                .catch(error => res.status(500).json({error}));    
+                .catch(error => res.status(500).json({message : 'error - un-like'}));    
         break;     
     }
     
