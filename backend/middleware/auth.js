@@ -9,11 +9,11 @@ module.exports = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
 
     // ensuite on decode le token, avec les package jwt et sa fonction verify()
-    const decodedToken = jwt.verify(token,'RANDOM_SECRET_TOKEN');
+    const decodedToken = jwt.verify(token,'RANDOM_TOKEN_SECRET');
     // si erreur , on tombe dans le catch
 
     // extraction de l'userId
-    const userId = decodedToken.UserId;
+    const userId = decodedToken.userId;
     console.log('BODY:');
     console.log(req.body);
 

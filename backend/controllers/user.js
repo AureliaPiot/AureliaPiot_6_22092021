@@ -34,7 +34,7 @@ exports.login = (req, res, next)=>{
         }
         bcrypt.compare(req.body.password, User.password)
     .then(valid => {
-        console.log('valide:'+ valid);
+        console.log('user valide:'+ valid);
         if(!valid){
             return res.status(401).json({error:'mot de passe incorrect'})
             }
@@ -42,7 +42,7 @@ exports.login = (req, res, next)=>{
             UserId: User._id,
             token: jwt.sign(
                 { userId: User._id },
-                'RANDOM_SECRET_TOKEN',
+                'RANDOM_TOKEN_SECRET',
                 { expiresIn: '24h' }
             )
         });
