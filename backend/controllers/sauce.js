@@ -116,8 +116,9 @@ exports.LikeSauce = (req, res, next)=>{
         const token = req.headers.authorization.split(' ')[1];
         const decodedToken = jwt.verify(token,'RANDOM_SECRET_TOKEN');
         const userId = decodedToken.userId;
-        console.log("userId : "+userId);        
+        console.log("userId : "+userId);    
 
+        console.log(req.body);        
         const likeStatus = req.body.like;
         console.log('requete like statut : '+ likeStatus);
 
@@ -125,8 +126,8 @@ exports.LikeSauce = (req, res, next)=>{
         case 1:
             Sauce.findOne({_id: req.params.id})
                 .then(sauce =>{
-
-                     if(sauce.usersLiked.includes(userId) || sauce.usersDisliked.includes(userId)) {
+                     
+                     if(sauce.usersLiked.includes(userId)) {
                         sauce.usersLiked.pull(userId);
                         sauce.likes --;
                         sauce.save()

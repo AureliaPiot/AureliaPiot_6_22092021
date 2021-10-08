@@ -14,7 +14,8 @@ module.exports = (req, res, next) => {
 
     // extraction de l'userId
     const userId = decodedToken.UserId;
-    // console.log("userId : "+userId);
+    console.log('BODY:');
+    console.log(req.body);
 
 
 
