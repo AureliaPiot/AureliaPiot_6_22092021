@@ -8,9 +8,6 @@ const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
 //manipulation de fichier
 
-const UserCtrl = require('../middleware/userCtrl.js');
-//controle de l'id user et la sauce
-
 const test = require('../middleware/test');
 // recupere la methode,le status de la requete & l'id de l'user
 
