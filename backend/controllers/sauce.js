@@ -173,7 +173,7 @@ exports.LikeSauce = (req, res, next)=>{
             Sauce.findOne({_id: req.params.id})
                 .then(sauce =>{
                     if(sauce.usersDisliked.includes(userId)){
-                        console.log(" like retiré" ); 
+                        console.log(" dislike retiré" ); 
 
                         sauce.usersDisliked.pull(`${userId}`);
                         sauce.dislikes --;
@@ -182,7 +182,7 @@ exports.LikeSauce = (req, res, next)=>{
                             .catch(error => res.status(400).json({error:"la sauce n'a pas pu etre être dé-disliké "}));
                     };
                     if(sauce.usersLiked.includes(userId)){
-                        console.log(" dislike retiré" ); 
+                        console.log(" like retiré" ); 
 
                         sauce.usersLiked.pull(`${userId}`);
                         sauce.likes --;
