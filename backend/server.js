@@ -1,5 +1,7 @@
-const http = require('http');
+const https = require('https');
 //importation du package http de node 
+var fs = require('fs');
+
 
 const app = require('./app');
 // importation de notre app
@@ -47,7 +49,11 @@ const errorHandler = error => {
 };
 
 // ______________le server
-const server = http.createServer(app);
+var privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
+var certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
+
+const server = https.createServer(credentials,app);
 // permet de creer un server local, requete rediriger vers l'app
 
 server.on('error', errorHandler);
