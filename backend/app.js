@@ -4,7 +4,7 @@ const app =express();
 // utilisation de express pour créer une application
 
 const mongoose =require('mongoose');
-mongoose.connect('mongodb+srv://P6_DB_user:BJPlzd45me@exosite.xaes9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',{ 
+mongoose.connect(process.env.MONGODB_CONNECT,{ 
     useNewUrlParser: true,
     useUnifiedTopology: true })
 .then(() => console.log('Connexion à MongoDB réussie !'))
@@ -21,10 +21,11 @@ const path = require('path');
 
 // const bodyParser = require('body-parser');
 // app.use(bodyParser.json());
+
 app.use(express.json());
 // pour lire le corp de la requete
 
-// app.use(express.urlencoded())
+app.use(express.urlencoded())
 // pour lire l'url de la requete
 
 

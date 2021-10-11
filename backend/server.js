@@ -8,7 +8,9 @@ const app = require('./app');
 // const fs= require('fs');
 // importation fs (file system)
 // const path = require('path');
-
+// require('dotenv').config();
+// appel de DOTENV pour lier les alias dans .env
+console.log("env :  "+process.env.NODE_ENV);
 
 // _____________________
 const normalizePort = val => {
@@ -65,7 +67,9 @@ server.on('error', errorHandler);
 server.on('listening', () => {
   const address = server.address();
   const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
-  console.log('Listening on ' + bind + " sécurisé");
+  console.log('Listening on ' + bind);
+  
+
 });
 
 server.listen(port,);

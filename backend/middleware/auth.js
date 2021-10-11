@@ -3,21 +3,16 @@ const jwt = require('jsonwebtoken');
 // pour verifier les tokens
 
 module.exports = (req, res, next) => {
-  console.log('--------- mdll AUTH-----------');
   try {
     //  recuperation du token dans le header authorization,
     const token = req.headers.authorization.split(' ')[1];
 
     // ensuite on decode le token, avec les package jwt et sa fonction verify()
-    const decodedToken = jwt.verify(token,'RANDOM_TOKEN_SECRET');
+    const decodedToken = jwt.verify(token,process.env.TOKEN);
     // si erreur , on tombe dans le catch
 
     // extraction de l'userId
     const userId = decodedToken.userId;
-    console.log('BODY:');
-    console.log(req.body);
-
-
 
     // si l'userId existe mais  qu'il est different de celui de la requete alors
     if (req.body.userId && req.body.userId !== userId) {
@@ -35,7 +30,6 @@ module.exports = (req, res, next) => {
     console.log('User non authentifiée');
   }
   
-  console.log('--------- mdll auth-----------');
 
 };
 // try and catch, car plusieurs elements peuvent posé probleme qui seront géré avec try/catch

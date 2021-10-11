@@ -11,13 +11,11 @@ module.exports = (req, res, next) => {
     const decodedToken = jwt.verify(token,'RANDOM_TOKEN_SECRET');
     const userId = decodedToken.userId;
 
-    console.log("test_token : "+token);
-    console.log("test_userId : "+userId);
+    console.log("token : "+token);
+    console.log("userId : "+userId);
     // console.log("Requete userId : "+req.body)
     console.log("Body :");
     console.table(req.body);
-
-    
 
     console.log('----------tst---------');
 
