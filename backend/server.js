@@ -1,4 +1,4 @@
-const https = require('https');
+const http = require('https');
 //importation du package http de node 
 var fs = require('fs');
 
@@ -49,12 +49,14 @@ const errorHandler = error => {
 };
 
 // ______________le server
-var privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
-var certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
-var credentials = {key: privateKey, cert: certificate};
+// var privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
+// var certificate = fs.readFileSync('sslcert/server.cert', 'utf8');
+// var credentials = {key: privateKey, cert: certificate};
 
-const server = https.createServer(credentials,app);
+// const server = https.createServer(credentials, app);
 // permet de creer un server local, requete rediriger vers l'app
+const server = http.createServer(app);
+
 
 server.on('error', errorHandler);
 server.on('listening', () => {
