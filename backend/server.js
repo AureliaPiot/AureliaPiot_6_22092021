@@ -1,8 +1,14 @@
 const http = require('http');
+// const https = require('https');
 //importation du package http de node 
 
 const app = require('./app');
 // importation de notre app
+
+// const fs= require('fs');
+// importation fs (file system)
+// const path = require('path');
+
 
 // _____________________
 const normalizePort = val => {
@@ -49,6 +55,9 @@ const errorHandler = error => {
 // ______________le server
 const server = http.createServer(app);
 // permet de creer un server local, requete rediriger vers l'app
+// const server = https.createServer({
+//   key:fs.readFileSync(path.join(__dirname,'sslcert','key.pem')),
+//   cert:fs.readFileSync(path.join(__dirname,'sslcert','key.pem'))}, app);
 
 
 
@@ -56,10 +65,10 @@ server.on('error', errorHandler);
 server.on('listening', () => {
   const address = server.address();
   const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
-  console.log('Listening on ' + bind);
+  console.log('Listening on ' + bind + " sécurisé");
 });
 
-server.listen(port);
+server.listen(port,);
 // le server ecoutera sur le port = $ port
 
 
