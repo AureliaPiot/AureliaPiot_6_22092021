@@ -9,7 +9,7 @@ mongoose.connect(process.env.MONGODB_CONNECT,{
     useUnifiedTopology: true })
 .then(() => console.log('Connexion à MongoDB réussie !'))
 .catch(() => console.log('Connexion à MongoDB échouée !'));
-    
+
 
 
 const userRoutes = require('./routes/user');
@@ -44,8 +44,9 @@ app.use((req,res,next)=>{
 
 
 // on donner le debut de l'url, userRoutes s'occupe de redistribué en fonction de la fin de l'url
-app.use('/api/auth',userRoutes);
-app.use('/api/sauces',sauceRoutes);
+
+app.use('/api/auth/',userRoutes);
+app.use('/api/sauces/',sauceRoutes);
 
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
