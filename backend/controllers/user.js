@@ -11,18 +11,25 @@ const jwt = require('jsonwebtoken');
 // inscription
 exports.signup = (req, res, next)=>{
     // faire la regex
-    if(req.body.password){
+    const regexEmail =/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(req.body.password);
+    console.log(regexEmail);
+    
+    if(req.body.password && regexEmail){
         bcrypt.hash(req.body.password, 10)
         .then(hash =>{
             const user = new User({ //utilisation du model creer et importer
                 email:req.body.email,
-                password : hash
+                password : hash,
+                date : Date.now()
             });
             user.save() //enregistrement de cette objet creer avec le model
                 .then(()=> res.status(201).json({message : 'utilisateur créé'}))
                 .catch(error => res.status(403).json({ error:"creation utilisateur impossible" }));
         })
         .catch(error => res.status(500).json({ error }))
+    }
+    else{
+        res.status(400).json({ message : "mot de passe invalide , il doit comporter au moins huit caractères, une lettre, un chiffre et un caractère spécial" })
     }
 
 };

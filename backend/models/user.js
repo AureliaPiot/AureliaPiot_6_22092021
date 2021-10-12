@@ -4,6 +4,7 @@ const uniqueValidator = require('mongoose-unique-validator');
 const UserSchema = mongoose.Schema({
     email :{ type :String, require:true, unique:true},
     password :{ type :String, require:true},
+    date:{ type :Number, require:true}
 });
 
 UserSchema.plugin(uniqueValidator);
