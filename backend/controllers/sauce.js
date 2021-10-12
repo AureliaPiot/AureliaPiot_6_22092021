@@ -61,11 +61,18 @@ exports.updateSauce = (req, res, next)=>{
         ...JSON.parse(req.body.sauce),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
       } : { ...req.body };
+// on addapte le type d'objet suivant le format de la requete (depandant de la presence d'un fichier)
 
-    //   si il existe on aura un type d'objet
-    //   -> on prend le fichier en compte , donc on recupere toute les information (avec "...") sous forme d'objet js (avec JSON.parse) le corp de la requete, et on va egalement generer l'imageURL
-    //   si il n'existe pas, on aura un autre type d'objet
-    //   -> on fait une simple copie de req.body =": { ...req.body };"
+    if(req.file !== undefined){
+        Sauce.findOne({_id: req.params.id})
+        .then(sauce =>{
+            const filename = sauce.imageUrl.split("/images/")[1];
+            fs.unlink(`images/${filename}`,()=>{
+                console.log("file supprimer ");                
+            });
+        })
+        .catch(error => console.log('echec suppression fichier'));
+    }//si un fichier est present dans la requete, on supprime l'ancien fichier
 
     Sauce.updateOne({_id: req.params.id },
          {...sauceObject, _id: req.params.id})
@@ -100,7 +107,7 @@ exports.deleteSauce = (req, res, next)=>{
 }
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////////
-
+// const jwt = require('jsonwebtoken');
 
 // [LIKES]
 exports.LikeSauce = (req, res, next)=>{
