@@ -10,7 +10,9 @@ const jwt = require('jsonwebtoken');
 
 // inscription
 exports.signup = (req, res, next)=>{
-    bcrypt.hash(req.body.password, 10)
+    // faire la regex
+    if(req.body.password){
+        bcrypt.hash(req.body.password, 10)
         .then(hash =>{
             const user = new User({ //utilisation du model creer et importer
                 email:req.body.email,
@@ -21,6 +23,8 @@ exports.signup = (req, res, next)=>{
                 .catch(error => res.status(403).json({ error:"creation utilisateur impossible" }));
         })
         .catch(error => res.status(500).json({ error }))
+    }
+
 };
 
 

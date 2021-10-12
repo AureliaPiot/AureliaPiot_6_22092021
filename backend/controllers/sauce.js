@@ -24,12 +24,6 @@ exports.addSauce = (req,res,next)=>{
 
     // on transforme cette chaine de caractere (le sauce du corps de la requete) pour la transformer en objet javascript
 
-    const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token,'RANDOM_TOKEN_SECRET');
-    const userId = decodedToken.userId;
-    console.log("userId "+userId);
-
-
     const sauceObject = JSON.parse(req.body.sauce);
     console.log("objet sauce "+sauceObject);
 
@@ -106,7 +100,7 @@ exports.deleteSauce = (req, res, next)=>{
 }
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////////
-const jwt = require('jsonwebtoken');
+
 
 // [LIKES]
 exports.LikeSauce = (req, res, next)=>{

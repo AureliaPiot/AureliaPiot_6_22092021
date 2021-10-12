@@ -8,12 +8,14 @@ module.exports = (req, res, next) => {
     // console.log('body : '+res.body);
     
     const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token,'RANDOM_TOKEN_SECRET');
+    const decodedToken = jwt.verify(token,process.env.TOKEN);
     const userId = decodedToken.userId;
+
+
 
     console.log("token : "+token);
     console.log("userId : "+userId);
-    // console.log("Requete userId : "+req.body)
+
     console.log("Body :");
     console.table(req.body);
 

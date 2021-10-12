@@ -10,7 +10,7 @@ const app = require('./app');
 // const path = require('path');
 // require('dotenv').config();
 // appel de DOTENV pour lier les alias dans .env
-console.log("env :  "+process.env.NODE_ENV);
+console.log("environnement :  "+process.env.NODE_ENV);
 
 // _____________________
 const normalizePort = val => {
