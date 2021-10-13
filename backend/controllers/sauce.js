@@ -63,12 +63,13 @@ exports.updateSauce = (req, res, next)=>{
       } : { ...req.body };
 // on addapte le type d'objet suivant le format de la requete (depandant de la presence d'un fichier)
 
+console.log("file : "+req.file);
     if(req.file !== undefined){
         Sauce.findOne({_id: req.params.id})
         .then(sauce =>{
             const filename = sauce.imageUrl.split("/images/")[1];
             fs.unlink(`images/${filename}`,()=>{
-                console.log("file supprimer ");                
+                console.log("file remplacer ");                
             });
         })
         .catch(error => console.log('echec suppression fichier'));
