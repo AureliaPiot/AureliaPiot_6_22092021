@@ -19,7 +19,7 @@ exports.signup = (req, res, next)=>{
     if(req.body.password && regexPassword){
 
         const email=crypto.AES.encrypt(req.body.email,crypto.enc.Utf8.parse(process.env.SELMAIL),{ iv: crypto.enc.Base64.parse(process.env.CRYPTOPARSE) }).toString();
-        console.log("email 1 "+email)
+        // console.log("email 1 "+email)
 
         
         let date= Date.now()

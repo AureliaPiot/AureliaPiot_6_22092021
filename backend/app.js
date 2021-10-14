@@ -19,8 +19,8 @@ mongoose.connect(process.env.MONGODB_CONNECT,{
 const userRoutes = require('./routes/user');
 // on appel les routes des user( pour recupe la fin de l'url + le controller a efectuer)
 const sauceRoutes = require('./routes/sauce');
+
 const path = require('path');
-const { stringify } = require('querystring');
 // possibiliter d'enregistrer des images
 
 
@@ -34,12 +34,15 @@ app.use(express.json());
 // pour lire l'url de la requete
 
 
+
 // HEADER
 // appliquer à toutes les routes, permet la communication entre server
 // quand le front et le back n'ont pas la meme origine
 app.use((req,res,next)=>{
     if(req.headers.origin === 'http://localhost:8081' || req.headers.origin === 'http://127.0.0.1:8081' ){
         res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+    res.set("Content-Security-Policy", `default-src 'self' ${req.headers.origin}`);
+
     }
     // res.setHeader('Access-Control-Allow-Origin','*');
     // seul deux origines sont acceptée, seul elles peuvent comuniquées avec le back
@@ -48,8 +51,6 @@ app.use((req,res,next)=>{
     //autorisation d'utiliser certain header(en-tete)
     res.setHeader('Access-Control-Allow-Methods','GET, POST, PUT, DELETE, PATCH, OPTIONS');
     //autorisation d'utiliser certaines methodes (get,post..ect)
-    // res.set("Content-Security-Policy", "default-src 'self' 'http://127.0.0.1:8081/'");
-    console.log()
     next();
 });
 
