@@ -45,7 +45,7 @@ app.use((req,res,next)=>{
 
     }
     // res.setHeader('Access-Control-Allow-Origin','*');
-    // seul deux origines sont acceptée, seul elles peuvent comuniquées avec le back
+    // seul deux origines sont acceptée, seule le Front peut envoyer des requetes au back
 
     res.setHeader('Access-Control-Allow-Headers','Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
     //autorisation d'utiliser certain header(en-tete)
