@@ -21,3 +21,13 @@ If your browser fails to launch, or shows a 404 error, navigate your browser to 
 The app should reload automatically when you make a change to a file.
 
 Use `Ctrl+C` in the terminal to stop the local server.
+
+
+## Update ##
+
+This application use DotEnv, please contact the creator to get the .env file
+
+if you want to start this project from the Backend folder, run `nodemon --exec 'node -r dotenv/config server.js'`, this should start the local server with DotEnv working.
+
+
+
