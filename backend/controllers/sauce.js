@@ -22,85 +22,70 @@ exports.getOneSauce = (req, res, next)=>{
 // [ADD]
 exports.addSauce = (req,res,next)=>{
     // definition d'une regex pour empecher certaines injections
-    const regexInput= /([<>\/{}=])/;
+    const regexInput= /([<>\/{}=])+/g ;
 
     // on transforme cette chaine de caractere (le sauce du corps de la requete) pour la transformer en objet javascript
     const sauceObject = JSON.parse(req.body.sauce);
+    delete sauceObject._id;
     
     console.log(sauceObject);
 
-    if(regexInput.test(sauceObject.name)|| 
-    regexInput.test(sauceObject.manufacturer)|| 
-    regexInput.test(sauceObject.mainPepper)
-    ){
-        res.status(403).json({message:"les caracteres '<>\/{}=' ne sont pas utilisables "})
-    }   
-    else{
-
-        delete sauceObject._id;
-        
         const sauce = new Sauce({
-            ...sauceObject,
-            // tout le corp de la requete
-            
-            // comme c'est le middleware multer qui a generer l'url de l'image, on modife l'url de l'image de la requete recus ici pour pour avoir l'enregistrer dans la base de donnée
-            imageUrl:`${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-            
-            
-            // req.protocol = correspond a HTTP ou HTTPS
-            // ${req.get('host')} = host de notre server (ici localhost:3000)
-            //images = le dossier ou se trouve les images
-            // req.file.filename = ici on a le nom du fichier
+        ...sauceObject,
+        name:   sauceObject.name.replaceAll(regexInput, "_"),
+        manufacturer:   sauceObject.manufacturer.replaceAll(regexInput, "_"),
+        mainPepper:     sauceObject.mainPepper.replaceAll(regexInput, "_"),
+        description:    sauceObject.mainPepper.replaceAll(regexInput, "_"),
+        imageUrl:  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
             
         });
-        console.log('sauce '+sauce);
         sauce.save()
         .then(()=> res.status(201).json({message:"sauce enregistrée"}))
         .catch(error => res.status(400).json({error:"la sauce n'a pas pu etre enregistrer"}));
-    } 
+ 
 };
     
     // ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // [UPDATE]
     exports.updateSauce = (req, res, next)=>{
-        const regexInput= /([<>\/{}=])/;
+        const regexInput= /([<>\/{}=])/g;
 
-    const sauceObject = req.file ?
-    // initialisation de sauceObject avec une condition
-    {
-        ...JSON.parse(req.body.sauce),
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-      } : { ...req.body };
-// on addapte le type d'objet suivant le format de la requete (depandant de la presence d'un fichier)
-// on test les inputs
-console.log(sauceObject);
-    if(regexInput.test(sauceObject.name)|| 
-    regexInput.test(sauceObject.manufacturer)|| 
-    regexInput.test(sauceObject.mainPepper)
-    ){
-        res.status(403).json({message:"les caracteres '<>\/{}=' ne sont pas utilisables "})
-    }  
-    else{
-        console.log("file : "+req.file);
-        if(req.file !== undefined){
-            Sauce.findOne({_id: req.params.id})
-            .then(sauce =>{
-                const filename = sauce.imageUrl.split("/images/")[1];
-                fs.unlink(`images/${filename}`,()=>{
-                    console.log("file remplacer ");                
-                });
-            })
-            .catch(error => console.log('echec suppression fichier'));
-        }
-        //si un fichier est present dans la requete, on supprime l'ancien fichier
-        
-        Sauce.updateOne({_id: req.params.id },
-            {...sauceObject, _id: req.params.id})
-            .then(()=> res.status(200).json({message: 'sauce modifiée'}))
-            .catch(error => res.status(404).json({error}));
-    }
-};
+        const sauceObject = req.file ?
+        // initialisation de sauceObject avec une condition
+        {
+            ...JSON.parse(req.body.sauce),
+            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        } : { ...req.body };
+    // on addapte le type d'objet suivant le format de la requete (depandant de la presence d'un fichier)
+    // on test les inputs
+        console.log(sauceObject);
+   
+            console.log("file : "+req.file);
+            if(req.file !== undefined){
+                Sauce.findOne({_id: req.params.id})
+                .then(sauce =>{
+                    const filename = sauce.imageUrl.split("/images/")[1];
+                    fs.unlink(`images/${filename}`,()=>{
+                        console.log("file remplacer ");                
+                    });
+                })
+                .catch(error => console.log('echec suppression fichier'));
+            }
+            //si un fichier est present dans la requete, on supprime l'ancien fichier
+            
+            Sauce.updateOne({_id: req.params.id },
+
+                {...sauceObject,
+                 _id: req.params.id,
+                name:   sauceObject.name.replaceAll(regexInput, "_"),
+                manufacturer:   sauceObject.manufacturer.replaceAll(regexInput, "_"),
+                mainPepper:     sauceObject.mainPepper.replaceAll(regexInput, "_"),
+                description:    sauceObject.mainPepper.replaceAll(regexInput, "_")
+                })
+                .then(()=> res.status(200).json({message: 'sauce modifiée'}))
+                .catch(error => res.status(404).json({error}));
+        };
     
 
 
