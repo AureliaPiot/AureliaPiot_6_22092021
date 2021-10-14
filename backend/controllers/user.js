@@ -22,7 +22,6 @@ exports.signup = (req, res, next)=>{
         console.log("email 1 "+email)
 
         
-        
         let date= Date.now()
         bcrypt.hash(date + req.body.password + process.env.SEL,10)
         .then(hash =>{

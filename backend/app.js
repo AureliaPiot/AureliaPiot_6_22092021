@@ -36,15 +36,20 @@ app.use(express.json());
 
 // HEADER
 // appliquer à toutes les routes, permet la communication entre server
-// quand le front et le back n'ont pa la meme origine
+// quand le front et le back n'ont pas la meme origine
 app.use((req,res,next)=>{
-    res.setHeader('Access-Control-Allow-Origin','*');
-    //toutes les origines sont accepter,tout le mondes peut interagire
+    if(req.headers.origin === 'http://localhost:8081' || req.headers.origin === 'http://127.0.0.1:8081' ){
+        res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+    }
+    // res.setHeader('Access-Control-Allow-Origin','*');
+    // seul deux origines sont acceptée, seul elles peuvent comuniquées avec le back
+
     res.setHeader('Access-Control-Allow-Headers','Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
     //autorisation d'utiliser certain header(en-tete)
     res.setHeader('Access-Control-Allow-Methods','GET, POST, PUT, DELETE, PATCH, OPTIONS');
     //autorisation d'utiliser certaines methodes (get,post..ect)
-    res.set("Content-Security-Policy", "default-src 'self'");
+    // res.set("Content-Security-Policy", "default-src 'self' 'http://127.0.0.1:8081/'");
+    console.log()
     next();
 });
 
@@ -59,20 +64,14 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 // possibiliter d'enregistrer des images
 
 // --------------------------------------------------
-// const test = crypto.AES.encrypt('key','elements').toString();
+// [test pour comprendre crypto]
+// const test = crypto.AES.encrypt('key',crypto.enc.Utf8.parse('elements'), {iv: crypto.enc.Base64.parse(process.env.CRYPTOPARSE) }).toString();
 // console.log("1test " +test);
-// const untest = crypto.AES.decrypt(test,'elements').toString(crypto.enc.Utf8);
+
+// const untest = crypto.AES.encrypt('key',crypto.enc.Utf8.parse('elements'),{ iv: crypto.enc.Base64.parse(process.env.CRYPTOPARSE) }).toString();
 // console.log("2test " +untest);
 
-// const email= crypto.enc.Base64.stringify(crypto.SHA1(req.body.email, process.env.SELMAIL));
-// CryptoJS.AES.encrypt(msg, key, { mode: CryptoJS.mode.ECB });
-const test = crypto.AES.encrypt('key',crypto.enc.Utf8.parse('elements'), {iv: crypto.enc.Base64.parse(process.env.CRYPTOPARSE) }).toString();
-console.log("1test " +test);
-
-const untest = crypto.AES.encrypt('key',crypto.enc.Utf8.parse('elements'),{ iv: crypto.enc.Base64.parse(process.env.CRYPTOPARSE) }).toString();
-console.log("2test " +untest);
-
-console.log(test == untest)
+// console.log(test == untest)
 // --------------------------------------------------
 
 module.exports =app;
