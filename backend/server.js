@@ -1,5 +1,4 @@
 const http = require('http');
-// const https = require('https');
 //importation du package http de node 
 
 const app = require('./app');
@@ -8,8 +7,7 @@ const app = require('./app');
 // const fs= require('fs');
 // importation fs (file system)
 // const path = require('path');
-// require('dotenv').config();
-// appel de DOTENV pour lier les alias dans .env
+
 console.log("environnement :  "+process.env.NODE_ENV);
 
 // _____________________

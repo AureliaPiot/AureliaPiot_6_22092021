@@ -21,8 +21,8 @@ exports.signup = (req, res, next)=>{
         const email=crypto.AES.encrypt(req.body.email,crypto.enc.Utf8.parse(process.env.SELMAIL),{ iv: crypto.enc.Base64.parse(process.env.CRYPTOPARSE) }).toString();
         // console.log("email 1 "+email)
 
-        
         let date= Date.now()
+
         bcrypt.hash(date + req.body.password + process.env.SEL,10)
         .then(hash =>{
             const user = new User({ //utilisation du model creer et importer

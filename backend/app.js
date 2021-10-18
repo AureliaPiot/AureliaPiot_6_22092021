@@ -20,6 +20,7 @@ const userRoutes = require('./routes/user');
 // on appel les routes des user( pour recupe la fin de l'url + le controller a efectuer)
 const sauceRoutes = require('./routes/sauce');
 
+
 const path = require('path');
 // possibiliter d'enregistrer des images
 
@@ -41,11 +42,10 @@ app.use(express.json());
 app.use((req,res,next)=>{
     if(req.headers.origin === 'http://localhost:8081' || req.headers.origin === 'http://127.0.0.1:8081' ){
         res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
-    res.set("Content-Security-Policy", `default-src 'self' ${req.headers.origin}`);
-
+        res.set("Content-Security-Policy", `default-src 'self' ${req.headers.origin}`);
     }
+    // seul deux origines sont acceptée, seul le Front peut envoyer des requetes au back
     // res.setHeader('Access-Control-Allow-Origin','*');
-    // seul deux origines sont acceptée, seule le Front peut envoyer des requetes au back
 
     res.setHeader('Access-Control-Allow-Headers','Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
     //autorisation d'utiliser certain header(en-tete)
@@ -53,7 +53,6 @@ app.use((req,res,next)=>{
     //autorisation d'utiliser certaines methodes (get,post..ect)
     next();
 });
-
 
 // on donner le debut de l'url, userRoutes s'occupe de redistribué en fonction de la fin de l'url
 
@@ -63,6 +62,11 @@ app.use('/api/sauces/',sauceRoutes);
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 // possibiliter d'enregistrer des images
+
+// app.use((req, res) => {
+//     res.status(404);
+//     res.json({error: "Page not found"});
+// });
 
 // --------------------------------------------------
 // [test pour comprendre crypto]

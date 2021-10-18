@@ -12,7 +12,7 @@ const test = require('../middleware/test');
 // recupere la methode,le status de la requete & l'id de l'user
 
 
-router.get('/',auth,sauceCtrl.getAllSauces);
+router.get('/',auth,test,sauceCtrl.getAllSauces);
 router.get('/:id',auth,test,sauceCtrl.getOneSauce);
 
 
