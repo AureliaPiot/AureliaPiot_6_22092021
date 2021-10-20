@@ -45,7 +45,6 @@ app.use((req,res,next)=>{
         res.set("Content-Security-Policy", `default-src 'self' ${req.headers.origin}`);
     }
     // seul deux origines sont acceptée, seul le Front peut envoyer des requetes au back
-    // res.setHeader('Access-Control-Allow-Origin','*');
 
     res.setHeader('Access-Control-Allow-Headers','Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
     //autorisation d'utiliser certain header(en-tete)
@@ -57,16 +56,13 @@ app.use((req,res,next)=>{
 // on donner le debut de l'url, userRoutes s'occupe de redistribué en fonction de la fin de l'url
 
 app.use('/api/auth/',userRoutes);
-app.use('/api/sauces/',sauceRoutes);
+app.use('/api/sauces',sauceRoutes);
 
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 // possibiliter d'enregistrer des images
 
-// app.use((req, res) => {
-//     res.status(404);
-//     res.json({error: "Page not found"});
-// });
+
 
 // --------------------------------------------------
 // [test pour comprendre crypto]
@@ -78,6 +74,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // console.log(test == untest)
 // --------------------------------------------------
+
 
 module.exports =app;
 // exportation de l'app
