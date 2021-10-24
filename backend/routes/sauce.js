@@ -9,18 +9,18 @@ const multer = require('../middleware/multer-config');
 //manipulation de fichier
 
 const test = require('../middleware/test');
-// recupere la methode,le status de la requete & l'id de l'user
+// recupere la methode,le status de la requete & l'id de l'user, à appliqué apres le middleware "auth" et "multer"
 
 
-router.get('/',auth,test,sauceCtrl.getAllSauces);
-router.get('/:id',auth,test,sauceCtrl.getOneSauce);
+router.get('/',auth,sauceCtrl.getAllSauces);
+router.get('/:id',auth,sauceCtrl.getOneSauce);
 
 
-router.post('/',auth,multer,test,sauceCtrl.addSauce);
-router.put('/:id',auth,multer,test,sauceCtrl.updateSauce);
-router.delete('/:id',auth,test,sauceCtrl.deleteSauce);
+router.post('/',auth,multer,sauceCtrl.addSauce);
+router.put('/:id',auth,multer,sauceCtrl.updateSauce);
+router.delete('/:id',auth,sauceCtrl.deleteSauce);
 
-router.post('/:id/like',auth,test,sauceCtrl.LikeSauce);
+router.post('/:id/like',auth,sauceCtrl.likeSauce);
 
 module.exports = router;
 

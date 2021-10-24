@@ -1,7 +1,7 @@
 const multer = require('multer');
 // on appele multer qu''on a installer
 
-// on crer une bibliotheque d"extension
+// on creer une bibliotheque d"extension
 const MIME_TYPES = {
   'image/jpg': 'jpg',
   'image/jpeg': 'jpg',

@@ -10,7 +10,9 @@ const jwt = require('jsonwebtoken');
 // installation et importation de crypto pour crypter l'email 
 const crypto = require('crypto-js');
 
-// inscription
+// ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// [inscription]
 exports.signup = (req, res, next)=>{
     // faire la regex
     const regexPassword =/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(req.body.password);
@@ -19,9 +21,9 @@ exports.signup = (req, res, next)=>{
     if(req.body.password && regexPassword){
 
         const email=crypto.AES.encrypt(req.body.email,crypto.enc.Utf8.parse(process.env.SELMAIL),{ iv: crypto.enc.Base64.parse(process.env.CRYPTOPARSE) }).toString();
-        // console.log("email 1 "+email)
+        
 
-        let date= Date.now()
+        let date= Date.now();
 
         bcrypt.hash(date + req.body.password + process.env.SEL,10)
         .then(hash =>{
@@ -38,14 +40,15 @@ exports.signup = (req, res, next)=>{
         }
 
     else{
-        res.status(400).json({ message : "mot de passe invalide , il doit comporter au moins huit caractères, une lettre, un chiffre et un caractère spécial" })
+        res.status(400).json({ message : "mot de passe invalide, il doit comporter au moins huit caractères, une lettre, un chiffre et un caractère spécial" })
     }
 
 };
 
 
+// ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// connexion
+// [connexion]
 exports.login = (req, res, next)=>{
     const email=crypto.AES.encrypt(req.body.email,crypto.enc.Utf8.parse(process.env.SELMAIL),{ iv: crypto.enc.Base64.parse(process.env.CRYPTOPARSE) }).toString();
 

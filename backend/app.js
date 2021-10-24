@@ -6,14 +6,12 @@ const app =express();
 const crypto = require('crypto-js');
 // var AES = require("crypto-js/aes");
 
-
 const mongoose =require('mongoose');
 mongoose.connect(process.env.MONGODB_CONNECT,{ 
     useNewUrlParser: true,
     useUnifiedTopology: true })
 .then(() => console.log('Connexion à MongoDB réussie !'))
 .catch(() => console.log('Connexion à MongoDB échouée !'));
-
 
 
 const userRoutes = require('./routes/user');
@@ -25,15 +23,8 @@ const path = require('path');
 // possibiliter d'enregistrer des images
 
 
-// const bodyParser = require('body-parser');
-// app.use(bodyParser.json());
-
 app.use(express.json());
 // pour lire le corp de la requete
-
-// app.use(express.urlencoded())
-// pour lire l'url de la requete
-
 
 
 // HEADER
@@ -53,6 +44,7 @@ app.use((req,res,next)=>{
     next();
 });
 
+
 // on donner le debut de l'url, userRoutes s'occupe de redistribué en fonction de la fin de l'url
 
 app.use('/api/auth/',userRoutes);
@@ -62,18 +54,6 @@ app.use('/api/sauces',sauceRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));
 // possibiliter d'enregistrer des images
 
-
-
-// --------------------------------------------------
-// [test pour comprendre crypto]
-// const test = crypto.AES.encrypt('key',crypto.enc.Utf8.parse('elements'), {iv: crypto.enc.Base64.parse(process.env.CRYPTOPARSE) }).toString();
-// console.log("1test " +test);
-
-// const untest = crypto.AES.encrypt('key',crypto.enc.Utf8.parse('elements'),{ iv: crypto.enc.Base64.parse(process.env.CRYPTOPARSE) }).toString();
-// console.log("2test " +untest);
-
-// console.log(test == untest)
-// --------------------------------------------------
 
 
 module.exports =app;

@@ -67,7 +67,7 @@ exports.addSauce = (req,res,next)=>{
                 .then(sauce =>{
                     const filename = sauce.imageUrl.split("/images/")[1];
                     fs.unlink(`images/${filename}`,()=>{
-                        console.log("file remplacer ");                
+                        console.log("file remplacé ");                
                     });
                 })
                 .catch(error => console.log('echec suppression fichier'));
@@ -117,7 +117,7 @@ exports.deleteSauce = (req, res, next)=>{
 // const jwt = require('jsonwebtoken');
 
 // [LIKES]
-exports.LikeSauce = (req, res, next)=>{
+exports.likeSauce = (req, res, next)=>{
 
     console.log('---middleware like---');
     const userId = req.body.userId;
@@ -170,7 +170,7 @@ exports.LikeSauce = (req, res, next)=>{
 
                         }
                     else{
-                        return res.status(400).json({error:"la sauce n'a pas pu etre être liké "})
+                        return res.status(400).json({error:"la sauce n'a pas pu etre être dislike "})
                     }
             })
             .catch(error => res.status(500).json({message : 'error - dislike'}));

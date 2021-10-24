@@ -33,4 +33,4 @@ module.exports = (req, res, next) => {
 
 };
 // try and catch, car plusieurs elements peuvent posé probleme qui seront géré avec try/catch
-// ctach renvoie juste une erreur 401 qui correspond a un probleme d'authentifications
+// catch renvoie juste une erreur 401 qui correspond a un probleme d'authentifications

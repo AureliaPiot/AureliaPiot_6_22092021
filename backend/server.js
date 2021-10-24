@@ -4,10 +4,6 @@ const http = require('http');
 const app = require('./app');
 // importation de notre app
 
-// const fs= require('fs');
-// importation fs (file system)
-// const path = require('path');
-
 console.log("environnement :  "+process.env.NODE_ENV);
 
 // _____________________
@@ -55,10 +51,6 @@ const errorHandler = error => {
 // ______________le server
 const server = http.createServer(app);
 // permet de creer un server local, requete rediriger vers l'app
-// const server = https.createServer({
-//   key:fs.readFileSync(path.join(__dirname,'sslcert','key.pem')),
-//   cert:fs.readFileSync(path.join(__dirname,'sslcert','key.pem'))}, app);
-
 
 
 server.on('error', errorHandler);
@@ -70,9 +62,7 @@ server.on('listening', () => {
 
 });
 
-server.listen(port,);
+server.listen(port);
 // le server ecoutera sur le port = $ port
-
-
 
 // ______________le server
