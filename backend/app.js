@@ -52,7 +52,7 @@ app.use('/api/sauces',sauceRoutes);
 
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
-// possibiliter d'enregistrer des images
+// recupere l'image avec l'url recuperer de imageUrl d'une sauce
 
 
 

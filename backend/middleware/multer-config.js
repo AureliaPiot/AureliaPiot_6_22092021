@@ -13,8 +13,11 @@ const storage = multer.diskStorage({
     callback(null, 'images');
   },
   filename: (req, file, callback) => {
-    const regexInput= /([<>\/{}= '"])+/g ;
-    const name = JSON.parse(req.body.sauce).name.replaceAll(regexInput, "-");
+    const regexInput= /([ <>{}'"=:.,;!\?\\\/\]\[])+/g ;
+
+    const name = JSON.parse(req.body.sauce).name.replaceAll(regexInput,"-");
+
+
     const extension = MIME_TYPES[file.mimetype];
     callback(null,name +"_"+ Date.now() + '.' + extension);
   }

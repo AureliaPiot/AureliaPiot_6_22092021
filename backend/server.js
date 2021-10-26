@@ -18,7 +18,7 @@ const normalizePort = val => {
     }
     return false;
   };
-
+// gere les erreurs suivant le port
 
 const port = normalizePort(process.env.PORT || '3000');
 
@@ -47,6 +47,7 @@ const errorHandler = error => {
       throw error;
   }
 };
+// gere les messages suivant les erreurs
 
 // ______________le server
 const server = http.createServer(app);
