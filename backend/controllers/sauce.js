@@ -131,7 +131,6 @@ exports.likeSauce = (req, res, next)=>{
             Sauce.findOne({_id: req.params.id})
                 .then(sauce =>{   
 
-                    if(!sauce.usersDisliked.includes(`${userId}`) ){
                         console.log("like ajouté"); 
 
                         sauce.usersLiked.push(`${userId}`);
@@ -140,14 +139,7 @@ exports.likeSauce = (req, res, next)=>{
                             .then(()=> 
                             res.status(200).json({message:"sauce liké"})
                             )
-                            .catch(error => res.status(400).json({error:"la sauce n'a pas pu etre être liké "}));
-
-                        }
-                    else{
-                        return res.status(400).json({error:"la sauce n'a pas pu etre être liké "})
-                    }
-             
-
+                            .catch(error => res.status(400).json({error:"la sauce n'a pas pu etre être liké "}));           
             })
             .catch(error => res.status(500).json({message : 'error - like'}));
         
@@ -157,9 +149,7 @@ exports.likeSauce = (req, res, next)=>{
             Sauce.findOne({_id: req.params.id})
                 .then(sauce =>{
 
-                    if(!sauce.usersLiked.includes(`${userId}`) ){
                         console.log(" dislike ajouté" ); 
-
                         sauce.usersDisliked.push(`${userId}`);
                         sauce.dislikes ++;
                         sauce.save()
@@ -167,11 +157,6 @@ exports.likeSauce = (req, res, next)=>{
                             res.status(200).json({message:"sauce dislike"})
                             )
                             .catch(error => res.status(400).json({error:"la sauce n'a pas pu etre être dislike "}));
-
-                        }
-                    else{
-                        return res.status(400).json({error:"la sauce n'a pas pu etre être dislike "})
-                    }
             })
             .catch(error => res.status(500).json({message : 'error - dislike'}));
         break;     
