@@ -4,7 +4,7 @@ const app =express();
 // utilisation de express pour créer une application
 
 const crypto = require('crypto-js');
-// var AES = require("crypto-js/aes");
+
 
 const mongoose =require('mongoose');
 mongoose.connect(process.env.MONGODB_CONNECT,{ 
